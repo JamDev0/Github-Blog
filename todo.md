@@ -1,0 +1,1 @@
+[] - Fazer imagem de perfil ter o mesmo tamanho que o conteudo do card de perfil
