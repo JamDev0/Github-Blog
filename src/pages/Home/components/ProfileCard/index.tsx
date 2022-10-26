@@ -9,46 +9,63 @@ import {
   ProfileCardContentContainer,
   ProfileCardResumeContainer,
 } from './styles'
+import { useContextSelector } from 'use-context-selector'
+import { profileContext } from '../../../../hooks/useProfile'
 
 export function ProfileCard() {
+  const { profileData, isProfileDataSet } = useContextSelector(
+    profileContext,
+    (context) => {
+      return {
+        isProfileDataSet: context.isProfileDataSet,
+        profileData: context.profileData,
+      }
+    },
+  )
+
+  console.log(isProfileDataSet)
+
   return (
     <ProfileCardContainer>
-      <img src="https://avatars.githubusercontent.com/u/61752887?v=4" alt="" />
+      {isProfileDataSet ? (
+        <>
+          <img src={profileData.avatar_url} alt="" />
 
-      <ProfileCardContentContainer>
-        <h1>Juan Garcia</h1>
+          <ProfileCardContentContainer>
+            <h1>{profileData.name}</h1>
 
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+            <p>{profileData.bio}</p>
 
-        <ProfileCardResumeContainer>
-          <div>
-            <img src={githubIcon} alt="Github Icon" />
+            <ProfileCardResumeContainer>
+              <div>
+                <img src={githubIcon} alt="Github Icon" />
 
-            <span>JamDev0</span>
-          </div>
+                <span>{profileData.login}</span>
+              </div>
+              {profileData.company ? (
+                <div>
+                  <Factory weight="fill" />
 
-          <div>
-            <Factory weight="fill" />
+                  <span>{profileData.company}</span>
+                </div>
+              ) : null}
 
-            <span>Rocketseat</span>
-          </div>
+              <div>
+                <Users weight="fill" />
 
-          <div>
-            <Users weight="fill" />
+                <span>{profileData.followers} seguidores</span>
+              </div>
+            </ProfileCardResumeContainer>
+          </ProfileCardContentContainer>
+          <GithubLinkContainer href={profileData.html_url}>
+            <GithubLink>Github</GithubLink>
 
-            <span>32 seguidores</span>
-          </div>
-        </ProfileCardResumeContainer>
-      </ProfileCardContentContainer>
-      <GithubLinkContainer href="https://github.com/JamDev0">
-        <GithubLink>Github</GithubLink>
-
-        <ArrowSquareOut weight="bold" />
-      </GithubLinkContainer>
+            <ArrowSquareOut weight="bold" />
+          </GithubLinkContainer>
+        </>
+      ) : (
+        <span>Loading...</span>
+      )}
     </ProfileCardContainer>
   )
 }
