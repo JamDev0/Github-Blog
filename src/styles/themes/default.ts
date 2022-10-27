@@ -52,4 +52,5 @@ export const defaultTheme = {
       },
     },
   },
+  "main-max-width": '70rem'
 } as const
