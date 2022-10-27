@@ -6,6 +6,8 @@ export const HomeContainer = styled.div`
 
   width: 100%;
 
+  padding-bottom: 100px;
+
   > main {
     max-width: 70rem;
 
