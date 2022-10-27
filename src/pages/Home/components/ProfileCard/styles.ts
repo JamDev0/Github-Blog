@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { BaseLink } from '../../../../components/BaseLink/styles'
 
 export const ProfileCardContainer = styled.section`
   position: relative;
@@ -81,40 +82,12 @@ export const ProfileCardResumeContainer = styled.section`
   }
 `
 
-export const GithubLinkContainer = styled.a`
+export const GithubLinkContainer = styled(BaseLink)`
   position: absolute;
-
-  display: flex;
-  column-gap: 0.5rem;
-  align-items: center;
 
   top: 0.5rem;
   right: 2.5rem;
 
-  color: ${(params) => params.theme.colors.brand.blue};
-  text-decoration: none;
-
   border: none;
   border-bottom: 1px solid transparent;
-
-  > svg {
-    width: 0.75rem;
-
-    line-height: 0;
-  }
-
-  :hover {
-    border-bottom: 1px solid ${(params) => params.theme.colors.brand.blue};
-  }
-`
-
-export const GithubLink = styled.span`
-  text-decoration: none;
-  text-transform: uppercase;
-
-  font-size: ${(params) => params.theme.text.components.link['font-size']};
-  font-weight: ${(params) => params.theme.text.components.link['font-weight']};
-  line-height: ${(params) => params.theme.text.components.link['line-height']};
-
-  color: ${(params) => params.theme.colors.brand.blue};
 `

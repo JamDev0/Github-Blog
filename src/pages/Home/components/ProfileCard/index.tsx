@@ -3,7 +3,6 @@ import githubIcon from '../../../../assets/icons/github.svg'
 import { ArrowSquareOut, Factory, Users } from 'phosphor-react'
 
 import {
-  GithubLink,
   GithubLinkContainer,
   ProfileCardContainer,
   ProfileCardContentContainer,
@@ -57,11 +56,13 @@ export function ProfileCard() {
               </div>
             </ProfileCardResumeContainer>
           </ProfileCardContentContainer>
-          <GithubLinkContainer href={profileData.html_url}>
-            <GithubLink>Github</GithubLink>
+          <a href={profileData.html_url}>
+            <GithubLinkContainer>
+              <span>Github</span>
 
-            <ArrowSquareOut weight="bold" />
-          </GithubLinkContainer>
+              <ArrowSquareOut weight="bold" />
+            </GithubLinkContainer>
+          </a>
         </>
       ) : (
         <span>Loading...</span>
