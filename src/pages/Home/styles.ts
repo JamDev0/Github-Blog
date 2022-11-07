@@ -9,7 +9,7 @@ export const HomeContainer = styled.div`
   padding-bottom: 100px;
 
   > main {
-    max-width: ${params => params.theme['main-max-width']};
+    max-width: ${(params) => params.theme['main-max-width']};
 
     width: 100%;
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { BaseLink } from '../../../../components/BaseLink/styles'
+import { LoadingFeedback } from '../../../../components/LoadingFeedback'
+import { TextPlaceholder } from '../../../../components/TextPlaceholder'
 
 export const ProfileCardContainer = styled.section`
   position: relative;
@@ -12,16 +13,28 @@ export const ProfileCardContainer = styled.section`
   padding-inline: 2.5rem;
 
   margin-bottom: 6.5rem;
+`
+
+export const ProfilePictureContainer = styled.div`
+  height: 9rem;
+  aspect-ratio: 1/1;
+
+  border-radius: 8px;
+
+  overflow: hidden;
 
   > img {
-    height: 9rem;
-    aspect-ratio: 1/1;
+    height: 100%;
+    width: 100%;
 
     object-fit: cover;
     object-position: center;
-
-    border-radius: 8px;
   }
+`
+
+export const ProfilePictureLoading = styled(LoadingFeedback)`
+  height: 100%;
+  width: 100%;
 `
 
 export const ProfileCardContentContainer = styled.section`
@@ -52,42 +65,34 @@ export const ProfileCardContentContainer = styled.section`
   }
 `
 
+export const TitlePlaceholder = styled(TextPlaceholder)`
+  width: 4rem;
+  height: 1.5rem;
+`
+
+export const BioPlaceholder = styled(TextPlaceholder)`
+  width: 100%;
+  height: 5rem;
+`
+
 export const ProfileCardResumeContainer = styled.section`
   display: flex;
   column-gap: 1.5rem;
-
-  > div {
-    display: flex;
-    align-items: center;
-    column-gap: 0.5rem;
-
-    width: fit-content;
-
-    color: ${(params) => params.theme.colors.base.subtitle};
-
-    font-size: ${(params) => params.theme.text.text.md['font-size']};
-    line-height: 100%;
-
-    > img,
-    svg {
-      width: 1.125rem;
-      aspect-ratio: 1/1;
-    }
-
-    > svg {
-      line-height: 0;
-
-      color: ${(params) => params.theme.colors.base.label};
-    }
-  }
 `
 
-export const GithubLinkContainer = styled(BaseLink)`
+export const GithubLinkContainer = styled.a`
   position: absolute;
 
   top: 0.5rem;
   right: 2.5rem;
 
-  border: none;
-  border-bottom: 1px solid transparent;
+  text-decoration: none;
+
+  padding: 0.25rem;
+
+  border-radius: 6px;
+
+  &[aria-disabled] {
+    cursor: not-allowed;
+  }
 `

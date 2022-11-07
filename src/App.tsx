@@ -1,5 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { PostProvider } from './hooks/usePost'
 import { PostsProvider } from './hooks/usePosts'
 import { ProfileProvider } from './hooks/useProfile'
 import { Router } from './Router'
@@ -12,9 +13,11 @@ export function App() {
       <BrowserRouter>
         <ProfileProvider>
           <PostsProvider>
-            <Router />
+            <PostProvider>
+              <Router />
 
-            <GlobalStyles />
+              <GlobalStyles />
+            </PostProvider>
           </PostsProvider>
         </ProfileProvider>
       </BrowserRouter>

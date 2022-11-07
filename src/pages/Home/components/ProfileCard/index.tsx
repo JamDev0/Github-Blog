@@ -1,15 +1,25 @@
+import { useContextSelector } from 'use-context-selector'
+
+import { DataBadge } from '../../../../components/DataBadge'
+
+import { profileContext } from '../../../../hooks/useProfile'
+
 import githubIcon from '../../../../assets/icons/github.svg'
 
 import { ArrowSquareOut, Factory, Users } from 'phosphor-react'
 
+import { BaseLink } from '../../../../components/BaseLink/styles'
+
 import {
+  BioPlaceholder,
   GithubLinkContainer,
   ProfileCardContainer,
   ProfileCardContentContainer,
   ProfileCardResumeContainer,
+  ProfilePictureContainer,
+  ProfilePictureLoading,
+  TitlePlaceholder,
 } from './styles'
-import { useContextSelector } from 'use-context-selector'
-import { profileContext } from '../../../../hooks/useProfile'
 
 export function ProfileCard() {
   const { profileData, isProfileDataSet } = useContextSelector(
@@ -22,51 +32,57 @@ export function ProfileCard() {
     },
   )
 
-  console.log(isProfileDataSet)
-
   return (
     <ProfileCardContainer>
-      {isProfileDataSet ? (
-        <>
+      <ProfilePictureContainer>
+        {isProfileDataSet ? (
           <img src={profileData.avatar_url} alt="" />
+        ) : (
+          <ProfilePictureLoading />
+        )}
+      </ProfilePictureContainer>
 
-          <ProfileCardContentContainer>
-            <h1>{profileData.name}</h1>
+      <ProfileCardContentContainer>
+        <h1>{isProfileDataSet ? profileData.name : <TitlePlaceholder />}</h1>
 
-            <p>{profileData.bio}</p>
+        <p>{isProfileDataSet ? profileData.bio : <BioPlaceholder />}</p>
 
-            <ProfileCardResumeContainer>
-              <div>
-                <img src={githubIcon} alt="Github Icon" />
+        {isProfileDataSet ? (
+          <ProfileCardResumeContainer>
+            <DataBadge
+              textColor="light"
+              icon={<img src={githubIcon} alt="Github Icon" />}
+              data={profileData.login}
+            />
 
-                <span>{profileData.login}</span>
-              </div>
-              {profileData.company ? (
-                <div>
-                  <Factory weight="fill" />
+            {profileData.company ? (
+              <DataBadge
+                textColor="light"
+                icon={<Factory weight="fill" />}
+                data={profileData.company}
+              />
+            ) : null}
 
-                  <span>{profileData.company}</span>
-                </div>
-              ) : null}
+            <DataBadge
+              textColor="light"
+              icon={<Users weight="fill" />}
+              data={`${profileData.followers} ${
+                profileData.followers === 1 ? 'seguidor' : 'seguidores'
+              }`}
+            />
+          </ProfileCardResumeContainer>
+        ) : null}
+      </ProfileCardContentContainer>
+      <GithubLinkContainer
+        aria-disabled={isProfileDataSet}
+        href={isProfileDataSet ? profileData.html_url : undefined}
+      >
+        <BaseLink>
+          <span>Github</span>
 
-              <div>
-                <Users weight="fill" />
-
-                <span>{profileData.followers} seguidores</span>
-              </div>
-            </ProfileCardResumeContainer>
-          </ProfileCardContentContainer>
-          <a href={profileData.html_url}>
-            <GithubLinkContainer>
-              <span>Github</span>
-
-              <ArrowSquareOut weight="bold" />
-            </GithubLinkContainer>
-          </a>
-        </>
-      ) : (
-        <span>Loading...</span>
-      )}
+          <ArrowSquareOut weight="bold" />
+        </BaseLink>
+      </GithubLinkContainer>
     </ProfileCardContainer>
   )
 }

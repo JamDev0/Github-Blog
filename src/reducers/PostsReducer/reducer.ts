@@ -5,6 +5,7 @@ interface postInterface {
   title: string
   created_at: string
   body: string
+  number: number
   id: number
 }
 

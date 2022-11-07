@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom'
+
 import styled from 'styled-components'
 
-// mudar de section para link(um link para a página do post)
-
-export const PostCardContainer = styled.section`
+export const PostCardContainer = styled(Link)`
   flex: 1;
+
+  text-decoration: none;
 
   min-width: 26rem;
 

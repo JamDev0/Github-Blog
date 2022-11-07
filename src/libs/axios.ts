@@ -7,3 +7,7 @@ export const gitHubUserApi = axios.create({
 export const gitHubSearchApi = axios.create({
   baseURL: 'https://api.github.com/search',
 })
+
+export const gitHubReposApi = axios.create({
+  baseURL: 'https://api.github.com/repos',
+})

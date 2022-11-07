@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const BaseLink = styled.div`
   display: flex;
@@ -26,8 +26,10 @@ export const BaseLink = styled.div`
     text-transform: uppercase;
 
     font-size: ${(params) => params.theme.text.components.link['font-size']};
-    font-weight: ${(params) => params.theme.text.components.link['font-weight']};
-    line-height: ${(params) => params.theme.text.components.link['line-height']};
+    font-weight: ${(params) =>
+      params.theme.text.components.link['font-weight']};
+    line-height: ${(params) =>
+      params.theme.text.components.link['line-height']};
 
     color: ${(params) => params.theme.colors.brand.blue};
   }

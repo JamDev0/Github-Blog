@@ -5,7 +5,20 @@ import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { SearchPostFormContainer } from './styles'
+
 import { useCallback } from 'react'
+
+import { gitHubSearchApi } from '../../../../libs/axios'
+import { useContextSelector } from 'use-context-selector'
+import { postsContext } from '../../../../hooks/usePosts'
+
+interface postsListInterface {
+  id: number
+  title: string
+  body: string
+  created_at: string
+  number: number
+}
 
 const SearchPostFormSchema = z.object({
   query: z.string(),
@@ -22,12 +35,14 @@ export function SearchPostForm() {
     resolver: zodResolver(SearchPostFormSchema),
   })
 
-  const handlePostFormSubmission = useCallback(
-    async (data: SearchPostFormInputs) => {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+  const { setPostList } = useContextSelector(postsContext, (context) => {
+    return {
+      setPostList: context.setPosts,
+    }
+  })
 
-      console.log(data)
-    },
+  const handlePostFormSubmission = useCallback(
+    async (data: SearchPostFormInputs) => {},
     [],
   )
 

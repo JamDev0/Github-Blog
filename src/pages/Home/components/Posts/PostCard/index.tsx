@@ -6,16 +6,23 @@ interface PostCardProps {
   title: string
   content: string
   createdAt: string
+  number: number
 }
 
-export function PostCard({ content, createdAt, title }: PostCardProps) {
-  const formattedCreatedAt = DateTime.fromISO(createdAt).setLocale('pt-br')
+export function PostCard({ content, createdAt, title, number }: PostCardProps) {
+  const DateTimeCreatedAt = DateTime.fromISO(createdAt)
+
+  const formattedCreatedAt = DateTimeCreatedAt.setLocale('pt-br')
+
+  const createdAtDaysPassedUntilNow = DateTime.now()
+    .diff(DateTimeCreatedAt, 'days')
+    .toObject().days
 
   function createdAtToDisplay() {
-    if (formattedCreatedAt.hasSame(DateTime.now(), 'day')) {
+    if (createdAtDaysPassedUntilNow! <= 1) {
       return formattedCreatedAt.toRelativeCalendar({ unit: 'hours' })
     } else {
-      if (formattedCreatedAt.hasSame(DateTime.now(), 'month')) {
+      if (createdAtDaysPassedUntilNow! <= 30) {
         return formattedCreatedAt.toRelativeCalendar({ unit: 'days' })
       } else {
         return formattedCreatedAt.toRelativeCalendar({ unit: 'months' })
@@ -24,7 +31,7 @@ export function PostCard({ content, createdAt, title }: PostCardProps) {
   }
 
   return (
-    <PostCardContainer>
+    <PostCardContainer to={`post/${number}`}>
       <header>
         <h2>{title}</h2>
         <span>{createdAtToDisplay()}</span>

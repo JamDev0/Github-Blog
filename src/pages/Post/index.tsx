@@ -1,29 +1,124 @@
-import { ArrowSquareOut, CaretLeft } from "phosphor-react";
-import { Link } from "react-router-dom";
-import { PostContainer, PostHeader, BackLinkContainer } from "./styles";
+import {
+  ArrowSquareOut,
+  CalendarBlank,
+  CaretLeft,
+  ChatCircle,
+} from 'phosphor-react'
+import { useParams } from 'react-router-dom'
+
+import { BaseLink } from '../../components/BaseLink/styles'
+
+import { DataBadge } from '../../components/DataBadge'
+
+import githubIcon from '../../assets/icons/github.svg'
+
+import {
+  AContainer,
+  BadgesContainer,
+  LinkContainer,
+  PostContainer,
+  PostContentContainer,
+  PostHeader,
+} from './styles'
+import { postContext } from '../../hooks/usePost'
+import { useEffect } from 'react'
+import { useContextSelector } from 'use-context-selector'
+import { DateTime } from 'luxon'
 
 export function Post() {
+  const { postNumber } = useParams()
+
+  const { setPost, isPostSet, postData, resetPost } = useContextSelector(
+    postContext,
+    (context) => {
+      return {
+        setPost: context.setPost,
+        postData: context.data,
+        isPostSet: context.isSet,
+        resetPost: context.resetPost,
+      }
+    },
+  )
+
+  useEffect(() => {
+    if (postData.number !== Number(postNumber)) {
+      resetPost()
+
+      if (postNumber) {
+        setPost(postNumber)
+      }
+    }
+  }, [postData, postNumber, resetPost, setPost])
+
+  const formattedCreatedAt = DateTime.fromISO(postData.created_at).setLocale(
+    'pt-br',
+  )
+
+  function createdAtToDisplay() {
+    if (formattedCreatedAt.hasSame(DateTime.now(), 'day')) {
+      return formattedCreatedAt.toRelativeCalendar({ unit: 'hours' })
+    } else {
+      if (formattedCreatedAt.hasSame(DateTime.now(), 'month')) {
+        return formattedCreatedAt.toRelativeCalendar({ unit: 'days' })
+      } else {
+        return formattedCreatedAt.toRelativeCalendar({ unit: 'months' })
+      }
+    }
+  }
+
   return (
-  <PostContainer>
-    <PostHeader>
-      <nav>
-        <Link to='/'>
-          <BackLinkContainer>
-            <CaretLeft weight="bold" />
+    <PostContainer>
+      {isPostSet ? (
+        <main>
+          <PostHeader>
+            <nav>
+              <LinkContainer style={{ textDecoration: 'none' }} to="/">
+                <BaseLink>
+                  <CaretLeft weight="bold" />
 
-            <span>Voltar</span>
-          </BackLinkContainer>
-        </Link>
+                  <span>Voltar</span>
+                </BaseLink>
+              </LinkContainer>
 
-        <a href="">
-          <BackLinkContainer>
-            <span>Ver no github</span>
+              <AContainer href={postData.html_url}>
+                <BaseLink>
+                  <span>Ver no github</span>
 
-            <ArrowSquareOut weight="bold" />
-          </BackLinkContainer>
-        </a>
-      </nav>
-    </PostHeader>
-  </PostContainer>
+                  <ArrowSquareOut weight="bold" />
+                </BaseLink>
+              </AContainer>
+            </nav>
+
+            <h1>{postData.title}</h1>
+
+            <BadgesContainer>
+              <DataBadge
+                textColor="dark"
+                data={postData.user}
+                icon={<img src={githubIcon} alt="" />}
+              />
+
+              <DataBadge
+                textColor="dark"
+                data={createdAtToDisplay()!}
+                icon={<CalendarBlank weight="fill" />}
+              />
+
+              <DataBadge
+                textColor="dark"
+                data={`${postData.comments} ${
+                  postData.comments > 1 || postData.comments === 0
+                    ? ' comentários'
+                    : 'comentário'
+                }`}
+                icon={<ChatCircle weight="fill" />}
+              />
+            </BadgesContainer>
+          </PostHeader>
+
+          <PostContentContainer>{postData.body}</PostContentContainer>
+        </main>
+      ) : null}
+    </PostContainer>
   )
 }
