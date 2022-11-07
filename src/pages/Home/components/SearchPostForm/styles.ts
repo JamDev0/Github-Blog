@@ -21,5 +21,11 @@ export const SearchPostFormContainer = styled.form`
     ::placeholder {
       color: ${(params) => params.theme.colors.base.label};
     }
+
+    :disabled {
+      opacity: 0.7;
+
+      cursor: not-allowed;
+    }
   }
 `

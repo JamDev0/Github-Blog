@@ -41,13 +41,36 @@ export function SearchPostForm() {
     }
   })
 
-  const handlePostFormSubmission = useCallback(
-    async (data: SearchPostFormInputs) => {},
-    [],
+  const handleSearchPostFormSubmission = useCallback(
+    async (data: SearchPostFormInputs) => {
+      const res = await gitHubSearchApi.get('issues', {
+        params: {
+          q: encodeURIComponent(`repo:JamDev0/GithubBlog-Posts ${data.query}`)
+        }
+      })
+
+      const postsData = Array.from(res.data.items).reduce(
+        (acc: postsListInterface[], current: any) => {
+          const post = {
+            id: current.id,
+            title: current.title,
+            body: current.body,
+            created_at: current.created_at,
+            number: current.number,
+          }
+
+          return [...acc, post]
+        },
+        [],
+      )
+
+      setPostList(postsData)
+    },
+    [setPostList],
   )
 
   return (
-    <SearchPostFormContainer onSubmit={handleSubmit(handlePostFormSubmission)}>
+    <SearchPostFormContainer onSubmit={handleSubmit(handleSearchPostFormSubmission)}>
       <input
         type="text"
         required
