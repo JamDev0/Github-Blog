@@ -45,7 +45,7 @@ export function SearchPostForm() {
     async (data: SearchPostFormInputs) => {
       const res = await gitHubSearchApi.get('issues', {
         params: {
-          q: encodeURIComponent(`repo:JamDev0/GithubBlog-Posts ${data.query}`)
+          q: `repo:JamDev0/GithubBlog-Posts ${data.query}`
         }
       })
 
