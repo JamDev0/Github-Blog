@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { TextPlaceholder } from '../../components/TextPlaceholder'
 
 export const PostContainer = styled.main`
   width: 100%;
@@ -46,6 +47,11 @@ export const PostHeader = styled.header`
   }
 `
 
+export const TitlePlaceholder = styled(TextPlaceholder)`
+  width: 22.5rem;
+  height: 2rem;
+`
+
 export const BadgesContainer = styled.div`
   display: flex;
   column-gap: 2rem;
@@ -62,12 +68,21 @@ export const PostContentContainer = styled.section`
   font-size: ${(params) => params.theme.text.text.md['font-size']};
 `
 
+export const ContentLinePlaceholder = styled(TextPlaceholder)`
+  width: 100%;
+  height: 1.25rem;
+`
+
 export const AContainer = styled.a`
   padding: 0.25rem;
 
   border-radius: 6px;
 
   text-decoration: none;
+
+  &[aria-disabled] {
+    cursor: not-allowed;
+  }
 `
 
 export const LinkContainer = styled(Link)`

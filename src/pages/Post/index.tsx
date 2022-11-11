@@ -15,10 +15,12 @@ import githubIcon from '../../assets/icons/github.svg'
 import {
   AContainer,
   BadgesContainer,
+  ContentLinePlaceholder,
   LinkContainer,
   PostContainer,
   PostContentContainer,
   PostHeader,
+  TitlePlaceholder,
 } from './styles'
 import { postContext } from '../../hooks/usePost'
 import { useEffect } from 'react'
@@ -68,7 +70,6 @@ export function Post() {
 
   return (
     <PostContainer>
-      {isPostSet ? (
         <main>
           <PostHeader>
             <nav>
@@ -80,7 +81,10 @@ export function Post() {
                 </BaseLink>
               </LinkContainer>
 
-              <AContainer href={postData.html_url}>
+              <AContainer
+                aria-disabled={isPostSet}
+                href={isPostSet ? postData.html_url : undefined}
+              >
                 <BaseLink>
                   <span>Ver no github</span>
 
@@ -89,36 +93,41 @@ export function Post() {
               </AContainer>
             </nav>
 
-            <h1>{postData.title}</h1>
+            <h1>{false ? postData.title : <TitlePlaceholder />}</h1>
 
-            <BadgesContainer>
-              <DataBadge
-                textColor="dark"
-                data={postData.user}
-                icon={<img src={githubIcon} alt="" />}
-              />
 
-              <DataBadge
-                textColor="dark"
-                data={createdAtToDisplay()!}
-                icon={<CalendarBlank weight="fill" />}
-              />
+            {
+              false ? 
+                <BadgesContainer>
+                  <DataBadge
+                    textColor="dark"
+                    data={postData.user}
+                    icon={<img src={githubIcon} alt="" />}
+                  />
 
-              <DataBadge
-                textColor="dark"
-                data={`${postData.comments} ${
-                  postData.comments > 1 || postData.comments === 0
-                    ? ' comentários'
-                    : 'comentário'
-                }`}
-                icon={<ChatCircle weight="fill" />}
-              />
-            </BadgesContainer>
+                  <DataBadge
+                    textColor="dark"
+                    data={createdAtToDisplay()!}
+                    icon={<CalendarBlank weight="fill" />}
+                  />
+
+                  <DataBadge
+                    textColor="dark"
+                    data={`${postData.comments} ${
+                      postData.comments > 1 || postData.comments === 0
+                        ? ' comentários'
+                        : 'comentário'
+                    }`}
+                    icon={<ChatCircle weight="fill" />}
+                  />
+                </BadgesContainer>
+              : null
+            }
           </PostHeader>
+          
 
-          <PostContentContainer>{postData.body}</PostContentContainer>
+          <PostContentContainer>{false ? postData.body : <><ContentLinePlaceholder /> <ContentLinePlaceholder /> <ContentLinePlaceholder /> <ContentLinePlaceholder /> <ContentLinePlaceholder /></>}</PostContentContainer>
         </main>
-      ) : null}
     </PostContainer>
   )
 }
